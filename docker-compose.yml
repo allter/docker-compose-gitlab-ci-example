@@ -1,0 +1,14 @@
+version: '2'
+services:
+  populate:
+    image: docker/compose:latest
+    command: [ '/bin/sh', '-c', 'cat > hws/hello_world_script.sh; chmod a+x hws/hello_world_script.sh' ]
+    volumes:
+      - hello_world_script:/hws
+  test:
+    image: docker/compose:latest
+    command: [ '/bin/sh', '-c', 'ln -sf /hello_world_script/* /usr/share/hello_world.sh; while true; do date > /date.txt; sleep 1; done' ]
+    volumes:
+      - hello_world_script:/hello_world_script/
+volumes:
+  hello_world_script:

@@ -1,0 +1,18 @@
+image: docker/compose:latest
+
+variables:
+   COMPOSE_PROJECT_NAME: $CI_PROJECT_PATH
+
+before_script:
+  - docker info
+test:
+  stage: test
+  script:
+    - echo "Hello"
+    - docker --version
+    - cat ./hello_world.sh | docker-compose run populate
+    - docker-compose up -d test
+    - sleep 1
+    - docker-compose exec -T test /usr/share/hello_world.sh
+    - sleep 1
+    - docker-compose exec -T test /usr/share/hello_world.sh
